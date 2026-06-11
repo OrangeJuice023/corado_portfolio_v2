@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   DESIGN TOKENS — "Building systems that turn complexity into clarity"
+   =========================================================================== */
+@theme {
+  --color-forest: #1b4332;
+  --color-emerald: #2d6a4f;
+  --color-sage: #a3b18a;
+  --color-warm: #f8f5f0;
+  --color-charcoal: #1a1a1a;
+  --color-slate: #64748b;
+
+  --color-warm-200: #efe9df;
+  --color-forest-50: #eef3f0;
+  --color-line: rgba(26, 26, 26, 0.08);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: "Clash Display", var(--font-geist-sans), ui-sans-serif, sans-serif;
+
+  --text-display: clamp(2.75rem, 1.4rem + 5.6vw, 6rem);
+  --text-display--line-height: 0.98;
+  --text-h2: clamp(1.9rem, 1.1rem + 3vw, 3.25rem);
+  --text-h2--line-height: 1.05;
+
+  --radius-card: 18px;
+}
+
+* { border-color: var(--color-line); }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-warm);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  letter-spacing: -0.011em;
+}
+
+::selection { background: var(--color-forest); color: var(--color-warm); }
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-emerald);
+}
+
+.hairline { height: 1px; background: var(--color-line); }
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-emerald);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease;
+}
+.link-underline:hover { background-size: 100% 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
