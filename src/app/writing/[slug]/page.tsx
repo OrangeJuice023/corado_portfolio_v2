@@ -1,65 +1,62 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import { essays, getEssay, publishedEssays, readingTime } from "@/lib/content/writing";
+import { ArrowUpRight } from "lucide-react";
+import { SectionHeading } from "@/components/SectionHeading";
+import { Reveal } from "@/components/Reveal";
+import { essays, readingTime } from "@/lib/content/writing";
 
-export function generateStaticParams() {
-  return publishedEssays.map((e) => ({ slug: e.slug }));
-}
+export const metadata: Metadata = {
+  title: "Writing",
+  description: "Essays on data, systems, organizations, and decision-making.",
+};
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const essay = getEssay(slug);
-  return essay ? { title: essay.title, description: essay.dek } : { title: "Essay" };
-}
-
-export default async function EssayPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const essay = getEssay(slug);
-  if (!essay || !essay.published || !essay.body) notFound();
-
-  const paragraphs = essay.body.split(/\n+/).map((p) => p.trim()).filter(Boolean);
-
+export default function WritingPage() {
   return (
-    <article className="mx-auto max-w-2xl px-6 py-20">
-      <Link
-        href="/writing"
-        className="group inline-flex cursor-pointer items-center gap-1.5 text-sm text-slate transition-colors duration-200 hover:text-forest"
-      >
-        <ArrowLeft size={14} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-        All writing
-      </Link>
+    <div className="mx-auto max-w-3xl px-6 py-20">
+      <SectionHeading
+        eyebrow="Writing"
+        title="Thinking, not just execution"
+        sub="Essays on data, systems, organizations, and the decisions they shape."
+      />
 
-      <p className="mt-8 eyebrow">{readingTime(essay.body)}</p>
-      <h1 className="font-display mt-3 text-h2 font-semibold leading-tight text-charcoal">
-        {essay.title}
-      </h1>
-      <p className="mt-4 text-lg leading-relaxed text-slate">{essay.dek}</p>
-
-      <div className="hairline my-10" />
-
-      <div className="space-y-5 text-[1.05rem] leading-[1.8] text-charcoal">
-        {paragraphs.map((p, i) => (
-          <p key={i}>{p}</p>
+      <ul className="mt-12">
+        {essays.map((e, i) => (
+          <Reveal key={e.slug} delay={i * 0.04}>
+            <li className="border-b border-line first:border-t">
+              {e.published ? (
+                <Link
+                  href={`/writing/${e.slug}`}
+                  className="group block cursor-pointer py-7"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <h2 className="font-display text-xl font-semibold text-charcoal transition-colors duration-200 group-hover:text-forest">
+                      {e.title}
+                    </h2>
+                    <ArrowUpRight
+                      size={18}
+                      className="mt-1 shrink-0 text-slate transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest"
+                    />
+                  </div>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate">{e.dek}</p>
+                  <p className="mt-2.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-sage">
+                    {readingTime(e.body)}
+                  </p>
+                </Link>
+              ) : (
+                <div className="py-7">
+                  <h2 className="font-display text-xl font-semibold text-charcoal">
+                    {e.title}
+                  </h2>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate">{e.dek}</p>
+                  <p className="mt-2.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-sage">
+                    Coming soon
+                  </p>
+                </div>
+              )}
+            </li>
+          </Reveal>
         ))}
-      </div>
-
-      <div className="hairline my-12" />
-      <Link
-        href="/writing"
-        className="link-underline cursor-pointer text-sm font-medium text-forest"
-      >
-        Read more essays
-      </Link>
-    </article>
+      </ul>
+    </div>
   );
 }
