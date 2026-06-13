@@ -64,6 +64,17 @@ export default async function SystemDetailPage({
         ))}
       </ul>
 
+      {system.image && (
+        <div className="mt-8 overflow-hidden rounded-[18px] border border-line">
+          <img
+            src={system.image}
+            alt={`${system.title} — screenshot`}
+            className="h-auto w-full"
+            loading="lazy"
+          />
+        </div>
+      )}
+
       {(system.liveUrl || system.repoUrl) && (
         <div className="mt-6 flex flex-wrap items-center gap-4">
           {system.liveUrl && (
