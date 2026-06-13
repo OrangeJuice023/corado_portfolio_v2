@@ -26,6 +26,7 @@ export interface SystemCase {
   tech: string[];
   liveUrl?: string;
   repoUrl?: string;
+  image?: string; // screenshot — shown on the case-study page
   study: {
     context: string;
     challenges: string[];
@@ -236,6 +237,7 @@ export const systems: SystemCase[] = [
     ],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts", "Leaflet", "MongoDB Atlas", "Open-Meteo API", "Vercel"],
     liveUrl: "https://mapatingin.vercel.app/",
+    image: "/images/projects/mapa-tingin.png",
     study: {
       context:
         "An exploration of real-time data processing, feature engineering, and operational dashboard design — built as a cloud-native, serverless application with a telemetry-inspired interface that communicates analytical workflow and system status.",
@@ -271,6 +273,7 @@ export const systems: SystemCase[] = [
     ],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "Leaflet", "Mapillary API", "OpenStreetMap", "STAC / Sentinel-2", "Vision-Language Models", "REST APIs"],
     liveUrl: "https://alam-daan.vercel.app/",
+    image: "/images/projects/alam-daan.png",
     study: {
       context:
         "A platform-oriented decision-support system (not a standalone dashboard) for monitoring infrastructure conditions across local government units, with a documented methodology module for reproducibility.",
@@ -302,6 +305,7 @@ export const systems: SystemCase[] = [
     impact: ["Phase 1 in active development — localized to Philippine labor-market realities"],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "LLM Integration", "Retrieval Workflows"],
     liveUrl: "https://landas-ai.vercel.app/",
+    image: "/images/projects/landas-ai.png",
     study: {
       context:
         "An AI-native product combining structured knowledge systems, retrieval workflows, recommendation logic, and guided user journeys to turn career exploration from passive browsing into actionable planning.",
