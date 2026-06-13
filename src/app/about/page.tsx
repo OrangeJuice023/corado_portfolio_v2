@@ -55,6 +55,16 @@ export default function AboutPage() {
       <section className="mt-14" aria-label="Beyond work">
         <h2 className="eyebrow">Beyond Work</h2>
         <p className="mt-4 leading-relaxed text-charcoal">{profile.about.interests}</p>
+        {profile.about.beyondWorkPhotos.length > 0 && (
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {profile.about.beyondWorkPhotos.map((src) => (
+              <div key={src} className="overflow-hidden rounded-xl border border-line">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt="" className="h-40 w-full object-cover" loading="lazy" />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="mt-14" aria-label="Where this is going">
