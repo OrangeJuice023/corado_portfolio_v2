@@ -43,7 +43,10 @@ export const profile = {
     philosophy:
       "Data doesn't make decisions — people do. The job of a good system is to shorten the distance between a question and a confident answer. Every KPI is an opinion; the craft is making those opinions explicit, inspectable, and useful.",
     interests:
-      "[Fitness, reading, and other interests — fill in what you want public]",
+      "Mostly the gym, cooking, books, and code. I'm a committed gym rat with the appetite to match, I hike whenever I can, and I'm a fairly spontaneous person. The same curiosity that pulls me onto a new trail or into a new recipe is what pulls me into a new system to figure out.",
+    // Optional: drop 2–3 personal photos in /public/images/life/ and list them here.
+    // The About page renders this strip only when it's non-empty (no broken images).
+    beyondWorkPhotos: [] as string[],
     aspirations:
       "Growing as an engineer who builds at the intersection of software, data, and AI — and eventually building products of my own.",
   },
