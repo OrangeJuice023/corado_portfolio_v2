@@ -76,7 +76,7 @@ export const systems: SystemCase[] = [
     title: "First International Deployment",
     org: "Dashlabs.ai",
     domains: ["Healthcare", "Analytics & BI", "Data Engineering"],
-    featured: true,
+    featured: false,
     status: "Shipped",
     problem:
       "The analytics stack was proven domestically, but cross-border rollout was unvalidated — different facility, different context, real risk.",
@@ -174,7 +174,7 @@ export const systems: SystemCase[] = [
     title: "AI-Powered Automation & Extraction",
     org: "Independent",
     domains: ["Software Engineering", "Research & Experiments", "Data Science & ML"],
-    featured: true,
+    featured: false,
     status: "Ongoing",
     problem:
       "Knowledge work is full of repetitive document, extraction, and summarization tasks that consume expert hours.",
@@ -196,7 +196,7 @@ export const systems: SystemCase[] = [
     title: "Software Engineering Foundations",
     org: "Independent / CS50",
     domains: ["Software Engineering"],
-    featured: true,
+    featured: false,
     status: "Shipped",
     problem:
       "Becoming an engineer without a CS degree means proving fundamentals through built, working software.",
@@ -216,6 +216,105 @@ export const systems: SystemCase[] = [
       architecture: "[Pick the strongest project and describe its architecture]",
       results: "Working, complete applications — not tutorials.",
       lessons: ["[A real lesson]"],
+    },
+  },
+  {
+    slug: "mapa-tingin",
+    title: "Mapa-Tingin — Earth Observation Platform",
+    org: "Independent",
+    domains: ["Software Engineering", "Data Engineering", "Data Science & ML"],
+    featured: true,
+    status: "Shipped",
+    problem:
+      "Decision-support tools for environmental risk often prioritize visualization over methodology, producing pretty dashboards built on approximate calculations that can't be defended.",
+    solution:
+      "A full-stack environmental intelligence platform that ingests live atmospheric data through a five-stage ETL pipeline (ingestion → validation → feature engineering → risk evaluation → persistence) and computes a defensible 0–100 heat-stress risk score — each stage visualized so users see raw data become actionable intelligence.",
+    impact: [
+      "Heat index computed via the NWS Rothfusz regression, not simplified approximations",
+      "Five-stage ETL pipeline with stage-by-stage observability",
+      "Live, on-demand environmental assessment for any coordinates",
+    ],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts", "Leaflet", "MongoDB Atlas", "Open-Meteo API", "Vercel"],
+    liveUrl: "https://mapatingin.vercel.app/",
+    study: {
+      context:
+        "An exploration of real-time data processing, feature engineering, and operational dashboard design — built as a cloud-native, serverless application with a telemetry-inspired interface that communicates analytical workflow and system status.",
+      challenges: [
+        "Database connection pooling and environment management in a serverless architecture",
+        "API reliability and dependency compatibility under serverless constraints",
+        "Translating raw atmospheric data into normalized, explainable risk tiers",
+      ],
+      architecture:
+        "Open-Meteo observations flow through a five-stage ETL pipeline; the feature-engineering layer computes the heat index (Rothfusz regression) and a 0–100 risk score against established heat-stress thresholds, generating tiered alerts. Processed observations, raw payloads, and pipeline logs persist in MongoDB Atlas for historical analysis and observability. A Leaflet map and live dashboard sit on top.",
+      results:
+        "A working decision-support system that prioritizes analytical accuracy and explainability over visual presentation.",
+      lessons: [
+        "Decision-support systems derive credibility from methodology, not visualization — swapping an approximate heat index for the NWS Rothfusz regression improved the platform more than any design change.",
+      ],
+    },
+  },
+  {
+    slug: "alam-daan",
+    title: "Alam Daan — Infrastructure Intelligence System",
+    org: "Independent",
+    domains: ["Software Engineering", "Data Science & ML", "Research & Experiments", "Operations"],
+    featured: true,
+    status: "Shipped",
+    problem:
+      "Philippine LGUs lack a consistent, comparable way to monitor infrastructure deterioration across cities — assessments are manual, subjective, and hard to defend.",
+    solution:
+      "A research-driven infrastructure intelligence platform that turns street-level imagery and environmental indicators into infrastructure risk assessments, anchored by the Urban Stress Score (USS) — a composite index combining physical decay, built-environment/vegetation indicators, and an infrastructure age proxy.",
+    impact: [
+      "Designed the Urban Stress Score: a transparent, weighted composite index",
+      "Multi-source pipeline: Mapillary imagery, Sentinel-2 (STAC/Element84), OpenStreetMap",
+      "VLM pipeline detects potholes, cracking, and utility damage from road imagery",
+    ],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Leaflet", "Mapillary API", "OpenStreetMap", "STAC / Sentinel-2", "Vision-Language Models", "REST APIs"],
+    liveUrl: "https://alam-daan.vercel.app/",
+    study: {
+      context:
+        "A platform-oriented decision-support system (not a standalone dashboard) for monitoring infrastructure conditions across local government units, with a documented methodology module for reproducibility.",
+      challenges: [
+        "Designing multi-source geospatial data pipelines that stay consistent across cities",
+        "AI-assisted image analysis with results extrapolated across a road network",
+        "Documenting weighting logic and assumptions so the index is defensible",
+      ],
+      architecture:
+        "Ingests Mapillary street-level imagery, Sentinel-2 satellite scenes via STAC-compliant APIs (Element84), and OpenStreetMap metadata. A Vision-Language Model pipeline analyzes sampled road imagery for visible deterioration; indicators are mathematically weighted into the Urban Stress Score. A documented API layer exposes image classification, satellite retrieval, and LGU-level stress analysis as services.",
+      results:
+        "A research-grade environment for infrastructure monitoring with a transparent, reproducible scoring methodology.",
+      lessons: [
+        "Meaningful intelligence systems emerge from carefully designed methodologies that turn raw observations into interpretable, defensible indicators — not from dashboards alone.",
+      ],
+    },
+  },
+  {
+    slug: "landas-ai",
+    title: "Landas AI — Career Intelligence Platform",
+    org: "Independent",
+    domains: ["Software Engineering", "Data Science & ML", "Research & Experiments"],
+    featured: false,
+    status: "Ongoing",
+    problem:
+      "Platforms like LinkedIn are great for networking and job discovery, but offer little help with a more fundamental question: what career path should someone actually pursue, and how do they get there?",
+    solution:
+      "An AI-native career intelligence platform for Filipino students and professionals — combining curated industry knowledge, salary intelligence, role-progression frameworks, and AI-assisted analysis into a unified decision-support experience (not a chatbot bolted onto a job board).",
+    impact: ["Phase 1 in active development — localized to Philippine labor-market realities"],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "LLM Integration", "Retrieval Workflows"],
+    liveUrl: "https://landas-ai.vercel.app/",
+    study: {
+      context:
+        "An AI-native product combining structured knowledge systems, retrieval workflows, recommendation logic, and guided user journeys to turn career exploration from passive browsing into actionable planning.",
+      challenges: [
+        "Balancing AI-generated recommendations with curated domain knowledge so outputs stay practical and grounded",
+        "Information architecture for comparing career trajectories and skill gaps",
+      ],
+      architecture:
+        "Structured industry knowledge + salary and role-progression data feed AI-assisted analysis; users explore industries, compare paths, identify skill gaps, and generate personalized development roadmaps.",
+      results: "[Phase 1 — add outcomes as they land]",
+      lessons: [
+        "Building an AI-native product means designing the knowledge and retrieval layer first, not embedding a chatbot last.",
+      ],
     },
   },
   {
