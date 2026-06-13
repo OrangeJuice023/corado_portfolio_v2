@@ -2,6 +2,7 @@ import {
   SiTypescript, SiPython, SiJavascript, SiReact, SiHtml5, SiCss,
   SiC, SiSharp, SiGooglebigquery, SiGooglecloud,
   SiPandas, SiKubernetes, SiN8N, SiNodedotjs,
+  SiNextdotjs, SiMongodb, SiLeaflet, SiVercel,
 } from "react-icons/si";
 import { BarChart3 } from "lucide-react";
 import type { IconType } from "react-icons";
@@ -13,9 +14,10 @@ import type { IconType } from "react-icons";
  */
 const STACK: { name: string; Icon: IconType }[] = [
   { name: "TypeScript", Icon: SiTypescript },
+  { name: "Next.js", Icon: SiNextdotjs },
+  { name: "React", Icon: SiReact },
   { name: "Python", Icon: SiPython },
   { name: "JavaScript", Icon: SiJavascript },
-  { name: "React", Icon: SiReact },
   { name: "Node.js", Icon: SiNodedotjs },
   { name: "HTML5", Icon: SiHtml5 },
   { name: "CSS", Icon: SiCss },
@@ -23,10 +25,13 @@ const STACK: { name: string; Icon: IconType }[] = [
   { name: "C#", Icon: SiSharp },
   { name: "BigQuery", Icon: SiGooglebigquery },
   { name: "Google Cloud", Icon: SiGooglecloud },
+  { name: "MongoDB", Icon: SiMongodb },
   { name: "Tableau", Icon: BarChart3 as unknown as IconType },
   { name: "Pandas", Icon: SiPandas },
+  { name: "Leaflet", Icon: SiLeaflet },
   { name: "Kubernetes", Icon: SiKubernetes },
   { name: "n8n", Icon: SiN8N },
+  { name: "Vercel", Icon: SiVercel },
 ];
 
 export function TechStack() {
