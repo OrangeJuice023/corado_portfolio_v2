@@ -38,6 +38,61 @@ export interface SystemCase {
 
 export const systems: SystemCase[] = [
   {
+    slug: "the-big-one",
+    title: "The Big One: Earthquake Loss and Disclosure Audit",
+    org: "Independent Research · NCDSPP 2026",
+    domains: ["Data Science & ML", "Research & Experiments", "Software Engineering"],
+    featured: true,
+    status: "Shipped",
+    problem:
+      "Metro Manila is overdue for a magnitude 7.2 rupture on the West Valley Fault, and public discussion settles on a single cost figure. Single-point estimates hide what matters: three earthquakes within 0.3 magnitude units of each other produced losses five orders of magnitude apart, because exposure and vulnerability dominate outcomes, not magnitude.",
+    solution:
+      "A two-layer research system. Layer one is a probabilistic loss model pairing mechanistic seismic physics with fragility parameters learned by approximate Bayesian computation, validated out-of-sample. Layer two audits six fault-corridor cities against the eight core obligations of RA 10121, document by document, across 48 evidence cells.",
+    impact: [
+      "Accepted to the 1st National Conference on Data Science for Public Policy (NCDSPP 2026), UP Diliman",
+      "Median direct loss US$45.4B, P10 to P90 range US$14.0B to US$106.4B, reaching 0.95 of the World Bank benchmark without being tuned toward it",
+      "Gradient-boosted baseline came in 113x low, turning an assumption about physics-informed ML into a measured result",
+      "All six audited cities run disaster offices; only one publishes its plans where an ordinary resident can reach them",
+    ],
+    tech: [
+      "Python",
+      "NumPy",
+      "pandas",
+      "LightGBM",
+      "Monte Carlo",
+      "Approximate Bayesian Computation",
+      "Next.js 14",
+      "TypeScript",
+      "MapLibre GL",
+      "KaTeX",
+      "BM25 Retrieval",
+      "Groq (Llama 3.3 70B)",
+    ],
+    liveUrl: "https://the-big-one-swart.vercel.app",
+    repoUrl: "https://github.com/OrangeJuice023/the-big-one",
+    study: {
+      context:
+        "PHIVOLCS expects intensity VIII shaking across the corridor. A planner sizing a contingent credit facility needs the range, not the midpoint, because US$14 billion and US$106 billion are different problems. The disclosure audit started as a sanity check and became half the project: a loss estimate is only useful if the institutions expected to act on it can.",
+      challenges: [
+        "Fragility parameters as expert guesses swung the median by -33%/+43%, too much weight to rest on an assumption",
+        "The forward model is a Monte Carlo simulation with no closed-form likelihood, so ordinary Bayesian updating was unavailable",
+        "A corpus that documents its own verification failures is a retrieval hazard: explaining why a claim is false requires repeating it",
+        "Several audit documents were obtainable only by formal request, the exact channel the paper critiques",
+      ],
+      architecture:
+        "Distance to fault gives shaking intensity via a custom Allen-Wald-Worden (2012) implementation, cross-checked against GEM OpenQuake. Intensity gives a damage fraction through a logistic fragility curve whose parameters are learned by ABC rejection sampling against the 1990 Luzon earthquake (200,000 draws, 76,593 accepted, 38.3%). A nested Monte Carlo decomposes aleatoric from epistemic uncertainty, splitting 65/35 at M7.2. The web layer publishes the full arithmetic with every equation one click from a plain-language explanation, over a 235-chunk BM25 corpus with grounded generation.",
+      results:
+        "Validated out-of-sample on the 2013 Bohol earthquake, held out entirely: calibrated at M7.7 on Luzon, tested at M7.2 on Bohol, so the model has to generalise across both magnitude and geography. It reproduced observed intensity within one unit at every distance band. An adversarial bound pushing every learned parameter toward a low estimate still gives US$12.1B, so the tens-of-billions conclusion does not rest on the central parameter estimates.",
+      lessons: [
+        "Uncertainty decomposition changes what a number is for. A range with a stated 65/35 split invites the question a planner actually needs answered: which part could better data fix?",
+        "Look at distributions, not summary statistics. My posterior means barely moved and I nearly wrote the data off. The histogram showed the observation had removed the entire upper tail of the fragility midpoint.",
+        "Test the alternative you are implicitly arguing against. The gradient-boosted baseline had correctly learned that most earthquakes are cheap, which is true and useless for thirteen million people sitting on a fault.",
+        "Compiled summaries are reliable on substance and unreliable on identifiers. Provenance flags caught two wrong statutory citations before they reached the paper.",
+        "The interesting finding was not the one I set out to get.",
+      ],
+    },
+  },
+  {
     slug: "healthcare-intelligence-platform",
     title: "Healthcare Intelligence Platforms",
     org: "Dashlabs.ai",
@@ -171,55 +226,6 @@ export const systems: SystemCase[] = [
     },
   },
   {
-    slug: "ai-automation-systems",
-    title: "AI-Powered Automation & Extraction",
-    org: "Independent",
-    domains: ["Software Engineering", "Research & Experiments", "Data Science & ML"],
-    featured: false,
-    status: "Ongoing",
-    problem:
-      "Knowledge work is full of repetitive document, extraction, and summarization tasks that consume expert hours.",
-    solution:
-      "LLM-driven automations — RAG pipelines (LlamaIndex), OCR systems (Tesseract, PaddleOCR, EasyOCR), and local LLM integration (Mistral, Phi-2) — that turn unstructured inputs into structured, decision-ready outputs.",
-    impact: ["[Pick your strongest 1–2 automations and quantify the hours/throughput]"],
-    tech: ["Python", "LlamaIndex (RAG)", "Tesseract / PaddleOCR / EasyOCR", "Mistral / Phi-2", "n8n"],
-    repoUrl: "https://github.com/OrangeJuice023",
-    study: {
-      context: "[Describe your 2 strongest automations: what they ingest, what they output, who uses them]",
-      challenges: ["Hallucination control", "Evaluating LLM outputs", "OCR accuracy on messy documents"],
-      architecture: "[Retrieval design, OCR pipeline, guardrails, human-in-the-loop points]",
-      results: "[Quantified outcome]",
-      lessons: ["Guardrails and evals matter more than model choice."],
-    },
-  },
-  {
-    slug: "software-engineering-foundations",
-    title: "Software Engineering Foundations",
-    org: "Independent / CS50",
-    domains: ["Software Engineering"],
-    featured: false,
-    status: "Shipped",
-    problem:
-      "Becoming an engineer without a CS degree means proving fundamentals through built, working software.",
-    solution:
-      "Complete full-stack applications: a stock-trading simulator (Python/Flask + live market API), database-backed web apps, and game systems with custom mechanics.",
-    impact: [
-      "CS50 Finance: full-stack trading simulator with live market data",
-      "Minesweeper UP: Python game with custom power-up mechanics",
-      "Multiple database-backed Flask applications",
-    ],
-    tech: ["Python", "Flask", "SQL", "JavaScript", "React", "APIs"],
-    repoUrl: "https://github.com/OrangeJuice023",
-    study: {
-      context:
-        "Built through and beyond Harvard's CS50, these projects established software engineering fundamentals: full-stack architecture, databases, API integration, and testing.",
-      challenges: ["[Real challenges from building these]"],
-      architecture: "[Pick the strongest project and describe its architecture]",
-      results: "Working, complete applications — not tutorials.",
-      lessons: ["[A real lesson]"],
-    },
-  },
-  {
     slug: "mapa-tingin",
     title: "Mapa-Tingin — Earth Observation Platform",
     org: "Independent",
@@ -322,24 +328,156 @@ export const systems: SystemCase[] = [
     },
   },
   {
-    slug: "cair-research",
-    title: "CAIR Research Track",
-    org: "Center for AI Research [verify name]",
-    domains: ["Research & Experiments"],
-    featured: false,
-    status: "Planned",
+    slug: "daloy",
+    title: "Daloy: Open Stablecoin Flow Intelligence",
+    org: "APAC Stellar Hackathon",
+    domains: ["Data Engineering", "Analytics & BI", "Software Engineering"],
+    featured: true,
+    status: "Shipped",
     problem:
-      "Applied AI work raises research questions — evaluation, reliability, human-AI decision-making — that production timelines never leave room for.",
+      "Philippine OFW remittance corridors move through stablecoin rails with almost no public visibility into flow, and the on-chain data that does exist is polluted by wash trading that makes headline volume meaningless.",
     solution:
-      "A research track expected to begin around August–September 2026. Nothing claimed here by design — this section fills in only as real work ships.",
-    impact: ["Expected start: Aug–Sep 2026 — no outputs claimed yet"],
-    tech: ["TBD"],
+      "A zero-cost ELT pipeline ingesting Stellar public data into a BigQuery medallion architecture modelled in dbt, surfacing corridor intelligence through Looker Studio and publishing verifiable daily attestations to a Soroban smart contract on Stellar mainnet.",
+    impact: [
+      "APAC Stellar Hackathon finalist, solo build",
+      "Identified and fixed an $8.8T fake-volume data-validation gap",
+      "Statistical anomaly detection for stablecoin peg health",
+      "Deployed to Stellar mainnet with daily on-chain attestations",
+    ],
+    tech: ["BigQuery", "dbt", "Looker Studio", "Soroban", "Stellar Hubble", "SQL"],
     study: {
-      context: "Planned, not started. Documented as a transparent roadmap item.",
-      challenges: [],
-      architecture: "—",
-      results: "—",
-      lessons: [],
+      context:
+        "Built solo for the APAC Stellar Hackathon. The premise was that remittance corridor intelligence should be open and reproducible rather than sitting behind a vendor, and that on-chain publication is what makes an analytics output auditable by someone who does not trust the analyst.",
+      challenges: [
+        "Headline on-chain volume was inflated by $8.8T of wash trading, so the naive ingest produced numbers that were confidently wrong",
+        "Keeping the entire pipeline at zero marginal cost while still running daily",
+        "Peg deviations are rare events, so anomaly detection had to be statistical rather than threshold-based",
+      ],
+      architecture:
+        "Stellar Hubble public data lands in BigQuery, modelled through bronze, silver and gold layers in dbt with validation gates at each promotion. Gold tables feed a Looker Studio corridor dashboard, and a daily job hashes the published figures into a Soroban contract on mainnet so any reader can verify that today's numbers match what was attested.",
+      results:
+        "Mainnet-deployed with verifiable daily attestations, at zero infrastructure cost, and a finalist placement.",
+      lessons: [
+        "The validation gate caught a fake-volume problem three orders of magnitude larger than the real signal. On public chain data, ingestion without validation is not a shortcut, it is a wrong answer delivered faster.",
+        "Publishing an attestation on-chain changes the incentive: the pipeline has to be right on a schedule, not right once for a demo.",
+      ],
+    },
+  },
+  {
+    slug: "ugat",
+    title: "UGAT: Organizational Reasoning Platform",
+    org: "Independent",
+    domains: ["Software Engineering", "Data Science & ML", "Operations"],
+    featured: false,
+    status: "Shipped",
+    problem:
+      "Dashboards report that a metric moved. They do not say why, and the gap between noticing a change and diagnosing its cause is where most organizational analytics stops being useful.",
+    solution:
+      "A reasoning platform that walks every insight through an explicit loop (observe, form competing hypotheses, weigh evidence, estimate confidence, commit to a diagnosis, recommend an intervention) the way an industrial engineer crossed with a management consultant would.",
+    impact: [
+      "Executive Translation Layer re-voices every insight for analysts, managers, and executives",
+      "Three original behavior metrics: Organizational Friction, Decision Velocity, Dependency Health",
+      "Live AI agent constrained to attribute causes to systems rather than individuals",
+      "Synthetic org with deliberately planted root causes, so the reasoning is verifiable",
+    ],
+    tech: ["Next.js", "TypeScript", "React", "Edge API Routes", "Groq (Llama 3.3 70B)", "Vercel"],
+    liveUrl: "https://ugat-eta.vercel.app/",
+    study: {
+      context:
+        "Ugat is Filipino for root. The premise is that the useful question is never what happened but why, and that a system which cannot show its reasoning cannot be trusted with a causal claim.",
+      challenges: [
+        "Evaluating a reasoning system requires knowing the right answer, which is why the demo organization is synthetic and seeded",
+        "Confidence estimates invite false precision, so the system expresses strength of evidence rather than inventing a percentage",
+        "Causal attribution defaults to blaming people, so the agent is explicitly constrained toward systems",
+      ],
+      architecture:
+        "The company is modelled as an interactive organizational graph carrying department health, dependencies, hidden risks, connected projects, and past incidents. A live agent grounded in that graph reasons on unscripted questions in real time. The Executive Translation Layer takes one diagnosis and renders three registers of the same finding.",
+      results:
+        "A working reasoning loop over a seeded synthetic organization where planted root causes make the diagnoses checkable rather than plausible-sounding.",
+      lessons: [
+        "Refusing to fake precise confidence is a feature. A system that says the evidence is weak is more useful than one that says 73%.",
+        "The same diagnosis has to speak in three registers or it reaches one audience and dies there.",
+      ],
+    },
+  },
+  {
+    slug: "labsim",
+    title: "LabSim: Synthetic Healthcare Data Science Platform",
+    org: "Independent",
+    domains: ["Data Science & ML", "Healthcare", "Software Engineering"],
+    featured: false,
+    status: "Shipped",
+    problem:
+      "Data science interns learn on clean tutorial datasets and then meet production data that is broken in ways they have never seen. Real diagnostic lab data cannot be handed to them for training.",
+    solution:
+      "A synthetic healthcare dataset engineered from scratch to reproduce production-like imperfections (broken joins, partial timestamps, messy multilingual records) with ground truth attached, plus nine end-to-end ML projects built on top of it.",
+    impact: [
+      "Nine end-to-end ML projects spanning classification, regression, clustering, association rules, anomaly detection, NLP, and statistical benchmarking",
+      "Generator injects realistic flaws with labels: null foreign keys, ~66% timestamp coverage, zero-value insurance, known financial anomalies",
+      "Reusable intern portfolio template, privacy by design with zero real patient data",
+    ],
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind",
+      "Three.js",
+      "Python",
+      "pandas",
+      "NumPy",
+      "scikit-learn",
+      "Faker",
+      "Recharts",
+    ],
+    liveUrl: "https://labsim-ds.vercel.app/",
+    study: {
+      context:
+        "Built for the data science interns I lead at Dashlabs. Teaching on honest, messy data required generating that mess deliberately, with ground truth, so mistakes are diagnosable rather than mysterious.",
+      challenges: [
+        "Flaws had to be realistic enough to teach but labelled enough to grade against",
+        "Negation-aware radiology parsing, where a missed negation inverts the clinical meaning",
+        "[How you validated the synthetic data actually resembles production]",
+      ],
+      architecture:
+        "A reproducible Python generator emits the synthetic lab dataset with injected flaws and a ground-truth key. Nine ML project tracks consume it. The front end is a production Next.js site with a scroll-driven Three.js hero visualizing five data sources converging into one schema.",
+      results:
+        "A reproducible generator with labels, a deployed site, and a reusable portfolio template the interns build against.",
+      lessons: [
+        "Ground truth is what turns a messy dataset from a frustration into a curriculum.",
+      ],
+    },
+  },
+  {
+    slug: "himay",
+    title: "Himay: AI Data Profiling and Quality Assessment",
+    org: "Independent",
+    domains: ["Data Engineering", "Software Engineering"],
+    featured: false,
+    status: "Shipped",
+    problem:
+      "Analysts build on datasets before establishing whether the data is trustworthy, and the checks that would catch it are tedious enough that they get skipped.",
+    solution:
+      "A browser-based profiling tool that evaluates a CSV or Excel file on upload: schema inference, missing values, duplicates, statistical summaries, IQR outlier detection, and an AI-assisted analyst report with cleaning recommendations.",
+    impact: [
+      "Fully client-side processing, so no dataset leaves the browser and no database is required",
+      "Schema inference, missing and duplicate detection, IQR outlier analysis, and AI cleaning recommendations in one pass",
+      "[Quantify: datasets profiled, or hours saved on a real workflow]",
+    ],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Recharts", "SheetJS", "Groq (Llama 3.3 70B)"],
+    liveUrl: "https://himay-lyart.vercel.app/",
+    study: {
+      context:
+        "Himay is Filipino for to dissect or examine closely. Built out of the same instinct behind the data-quality enforcement I run across client pipelines: the check has to be cheap enough that nobody skips it.",
+      challenges: [
+        "Client-side processing caps the workable file size, which is the price of the privacy guarantee",
+        "LLM-generated quality commentary has to stay tied to computed statistics rather than inventing findings",
+      ],
+      architecture:
+        "SheetJS parses the upload in-browser. Profiling statistics are computed client-side and rendered through Recharts. The computed profile, not the raw data, is what gets sent for AI-assisted commentary.",
+      results:
+        "Fast, privacy-preserving dataset assessment with no backend dependency.",
+      lessons: [
+        "Sending the profile instead of the data is what lets the privacy claim and the AI feature coexist.",
+      ],
     },
   },
   {
@@ -359,7 +497,7 @@ export const systems: SystemCase[] = [
     ],
     tech: ["Next.js 15", "React 19", "TypeScript", "Tailwind v4", "d3-force", "Groq API"],
     liveUrl: "/",
-    repoUrl: "https://github.com/OrangeJuice023/portfolio-v2",
+    repoUrl: "https://github.com/OrangeJuice023/corado_portfolio_v2",
     study: {
       context:
         "V1 used Gemini with no guardrails and framed me as a student developer. V2 is a ground-up rebuild designed to grow with my career.",
