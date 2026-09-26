@@ -2,6 +2,8 @@
 
 export const profile = {
   name: "Gervi Corado",
+  /** Full name — used for search metadata and structured data. */
+  fullName: "Gervi Paulo C. Corado",
   identity: "Software Engineer • Analytics Engineer • Data Builder",
   tagline: "Building systems that turn complexity into clarity.",
   subheadline:

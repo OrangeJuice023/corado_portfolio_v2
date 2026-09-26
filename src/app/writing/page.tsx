@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -6,11 +7,12 @@ import { Reveal } from "@/components/Reveal";
 import { TopoLines } from "@/components/field/TopoLines";
 import { essays, readingTime } from "@/lib/content/writing";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/writing" },
+export const metadata: Metadata = pageMetadata({
   title: "Writing",
-  description: "Essays on data, systems, organizations, and decision-making.",
-};
+  description:
+    "Essays on data, systems, organizations, and decision-making.",
+  path: "/writing",
+});
 
 export default function WritingPage() {
   return (

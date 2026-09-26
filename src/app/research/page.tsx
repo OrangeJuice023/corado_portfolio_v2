@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -6,12 +7,12 @@ import { Reveal } from "@/components/Reveal";
 import { TopoLines } from "@/components/field/TopoLines";
 import { getSystem } from "@/lib/content/systems";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/research" },
+export const metadata: Metadata = pageMetadata({
   title: "Research & AI",
   description:
     "Applied AI work: retrieval, agent reasoning, and production LLM systems, grounded in shipped projects.",
-};
+  path: "/research",
+});
 
 /** Every entry ties to a real, shipped system. No roadmap, no unclaimed work. */
 const current = [

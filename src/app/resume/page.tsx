@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -7,11 +8,12 @@ import { TopoLines } from "@/components/field/TopoLines";
 import { profile } from "@/lib/content/profile";
 import { certCount, issuers } from "@/lib/content/certifications";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/resume" },
+export const metadata: Metadata = pageMetadata({
   title: "Resume",
-  description: "Experience, education, and skills — interactive timeline plus PDF.",
-};
+  description:
+    `${profile.fullName} — experience, education, and skills. Interactive timeline plus PDF.`,
+  path: "/resume",
+});
 
 function Label({ children, index, id }: { children: React.ReactNode; index: string; id: string }) {
   return (

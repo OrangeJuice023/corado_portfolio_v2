@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { profile } from "@/lib/content/profile";
+import { homeDescription, homeTitle } from "@/lib/seo";
 
 /** Handwriting — reserved for field-note annotations only. */
 const caveat = Caveat({
@@ -19,18 +20,21 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
   title: {
-    default: `${profile.name} — Software & Data Systems`,
-    template: `%s — ${profile.name}`,
+    default: homeTitle,
+    template: `%s — ${profile.fullName}`,
   },
-  description: profile.summary,
-  authors: [{ name: profile.name, url: profile.siteUrl }],
+  description: homeDescription,
+  applicationName: profile.fullName,
+  authors: [{ name: profile.fullName, url: profile.siteUrl }],
+  creator: profile.fullName,
   openGraph: {
-    title: `${profile.name} — Software & Data Systems`,
-    description: profile.summary,
-    url: profile.siteUrl,
-    siteName: profile.name,
+    title: homeTitle,
+    description: homeDescription,
+    siteName: profile.fullName,
     type: "website",
+    locale: "en_US",
   },
+  twitter: { card: "summary", title: homeTitle, description: homeDescription },
 };
 
 export default function RootLayout({

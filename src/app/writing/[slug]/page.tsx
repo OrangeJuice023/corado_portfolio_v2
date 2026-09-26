@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { essays, getEssay, publishedEssays, readingTime } from "@/lib/content/writing";
+import { pageMetadata } from "@/lib/seo";
 import { HandUnderline } from "@/components/field/Annotation";
 
 export function generateStaticParams() {
@@ -17,7 +18,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const essay = getEssay(slug);
   return essay
-    ? { title: essay.title, description: essay.dek, alternates: { canonical: `/writing/${essay.slug}` } }
+    ? pageMetadata({ title: essay.title, description: essay.dek, path: `/writing/${essay.slug}`, type: "article" })
     : { title: "Essay" };
 }
 

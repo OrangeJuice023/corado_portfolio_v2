@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ArrowUpRight, Github, Linkedin, Mail, FileText } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ContactForm } from "@/components/ContactForm";
 import { TopoLines } from "@/components/field/TopoLines";
 import { profile } from "@/lib/content/profile";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/contact" },
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
-  description: "Get in touch with Gervi Corado.",
-};
+  description:
+    `Get in touch with ${profile.fullName}.`,
+  path: "/contact",
+});
 
 const channels = [
   { label: "Email", href: `mailto:${profile.email}`, icon: Mail, value: profile.email },

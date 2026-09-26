@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -11,11 +12,12 @@ import {
 } from "@/lib/content/certifications";
 import { ACCENT } from "@/lib/domain-style";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/certifications" },
+export const metadata: Metadata = pageMetadata({
   title: "Certifications",
-  description: `${certCount} verifiable credentials across data engineering, data science, software engineering, and strategy.`,
-};
+  description:
+    `${certCount} verifiable credentials across data engineering, data science, software engineering, and strategy.`,
+  path: "/certifications",
+});
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 

@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TopoLines } from "@/components/field/TopoLines";
 import { SystemsExplorer } from "./SystemsExplorer";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/systems" },
+export const metadata: Metadata = pageMetadata({
   title: "Systems",
   description:
     "Software, analytics, data, and AI systems — one body of work, filterable by discipline.",
-};
+  path: "/systems",
+});
 
 export default function SystemsPage() {
   return (

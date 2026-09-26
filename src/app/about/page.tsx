@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpen, ChefHat, Code2, Dumbbell, Mountain } from "lucide-react";
@@ -9,11 +10,12 @@ import { TopoLines } from "@/components/field/TopoLines";
 import { EmphasisMarks, HandUnderline } from "@/components/field/Annotation";
 import { profile } from "@/lib/content/profile";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/about" },
+export const metadata: Metadata = pageMetadata({
   title: "About",
-  description: profile.about.whoIAm,
-};
+  description:
+    profile.about.whoIAm,
+  path: "/about",
+});
 
 /** Visual shorthand for the interests named in profile.about.interests. */
 const INTEREST_MARKS = [

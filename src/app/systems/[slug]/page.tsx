@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import { systems, getSystem } from "@/lib/content/systems";
+import { pageMetadata } from "@/lib/seo";
 import { DomainChip } from "@/components/DomainChip";
 import { LiveBadge, StatusMark } from "@/components/StatusMark";
 import { CaseStudyNav } from "@/components/CaseStudyNav";
@@ -22,11 +23,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const system = getSystem(slug);
   return system
-    ? {
+    ? pageMetadata({
         title: system.title,
         description: system.problem,
-        alternates: { canonical: `/systems/${system.slug}` },
-      }
+        path: `/systems/${system.slug}`,
+        type: "article",
+      })
     : { title: "System" };
 }
 

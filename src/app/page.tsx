@@ -11,14 +11,30 @@ import { featuredSystems, systems, allDomains } from "@/lib/content/systems";
 import { certCount, issuers } from "@/lib/content/certifications";
 import { profile } from "@/lib/content/profile";
 import { domainAccent } from "@/lib/domain-style";
+import { homeDescription, homeTitle, siteJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
+  title: { absolute: homeTitle },
+  description: homeDescription,
   alternates: { canonical: "/" },
+  openGraph: {
+    title: homeTitle,
+    description: homeDescription,
+    url: "/",
+    siteName: profile.fullName,
+    type: "profile",
+    locale: "en_US",
+  },
 };
 
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        // JSON-LD: escape "<" so the payload can never close the script tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd()).replace(/</g, "\\u003c") }}
+      />
       <Hero />
       <ImpactSection />
 
