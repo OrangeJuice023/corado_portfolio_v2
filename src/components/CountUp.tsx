@@ -13,11 +13,13 @@ export function CountUp({
   prefix = "",
   suffix = "",
   duration = 1400,
+  suffixClassName,
 }: {
   value: number;
   prefix?: string;
   suffix?: string;
   duration?: number;
+  suffixClassName?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
@@ -41,10 +43,17 @@ export function CountUp({
   }, [inView, value, duration, reduced]);
 
   return (
-    <span ref={ref}>
+    <span ref={ref} className="whitespace-nowrap">
       {prefix}
       {display.toLocaleString()}
-      {suffix}
+      {suffixClassName && suffix.includes(" ") ? (
+        <>
+          {suffix.slice(0, suffix.indexOf(" "))}
+          <span className={suffixClassName}>{suffix.slice(suffix.indexOf(" ") + 1)}</span>
+        </>
+      ) : (
+        suffix
+      )}
     </span>
   );
 }

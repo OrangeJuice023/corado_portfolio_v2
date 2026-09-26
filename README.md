@@ -64,12 +64,40 @@ All personal data lives in `src/lib/content/` — components never hardcode it:
 
 Search for `[bracketed]` placeholders and replace with real detail.
 
+## Design system — "field notebook for systems thinking"
+
+~80% clean editorial UI, ~15% field-note / map texture, ~5% tactile surprises.
+Green stays the identity color; terracotta / ochre / dusk / umber are muted
+*marks* (dots, stamps), never text on paper.
+
+- **Tokens** — `src/app/globals.css` `@theme`: palette, `shadow-raised` /
+  `shadow-lifted` / `shadow-pressed`, `font-hand` (Caveat — annotations only).
+- **Surfaces & controls** — `.surface-paper`, `.surface-lift`, `.btn` +
+  `.btn-primary` / `.btn-soft`, `.chip`, `.tape`, `.tape-corner`,
+  `.field-grid`, `.field-input`, `.highlight`, `.read-progress`.
+- **Primitives** — `components/field/TopoLines` (deterministic contour SVG),
+  `components/field/Annotation` (hand underline, curved arrow, emphasis
+  marks), `DomainChip` + `lib/domain-style.ts` (discipline → accent),
+  `StatusMark`, `SectionHeading` (`as="h1"` for page titles), `CaseStudyNav`.
+- **Hero** — `LivingNetwork.tsx`: canvas + d3-force scene narrating
+  FIELD → MOVEMENT → TRACE → BUILD → CLARITY. Pauses offscreen; renders a
+  static final frame under `prefers-reduced-motion`.
+- **Reduced motion** — use `usePrefersReducedMotion` (`lib/use-reduced-motion.ts`)
+  for anything that changes rendered markup; it is hydration-safe.
+
 ## Assets to add
 
 - `/public/resume.pdf`
 - `/public/images/portrait.jpg` (About page)
 - `/public/images/certs/*.png` (optional cert badges)
 - `/public/og.png` (optional social share image)
+
+**Known asset TODO — Mapa-Tingin screenshot.** `/public/images/projects/mapa-tingin.png`
+shows the Windows taskbar and the dashboard's empty "Collecting data…" state.
+It is kept deliberately: the live app's `/api/data` (405) and `/api/fetch-all` (500)
+currently fail, so a genuinely populated capture is impossible. Once the API
+works, recapture at 1366×691 (viewport only, no OS/browser chrome) — never
+substitute mock data.
 
 ## Deploy
 

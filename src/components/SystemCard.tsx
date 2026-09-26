@@ -1,56 +1,93 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { SystemCase } from "@/lib/content/systems";
+import { DomainChip } from "./DomainChip";
+import { LiveBadge, StatusMark } from "./StatusMark";
+import { cn } from "@/lib/utils";
 
-export function SystemCard({ system }: { system: SystemCase }) {
+/**
+ * Field-note card. Scan order: org/status → title → problem → solution →
+ * impact (highlighted) → disciplines. All copy comes straight from content.
+ */
+const ROWS = [
+  { key: "problem", label: "Problem", mark: "bg-terracotta" },
+  { key: "solution", label: "Solution", mark: "bg-emerald" },
+] as const;
+
+export function SystemCard({
+  system,
+  index,
+  className,
+}: {
+  system: SystemCase;
+  index?: number;
+  className?: string;
+}) {
   return (
     <Link
       href={`/systems/${system.slug}`}
-      className="group flex h-full cursor-pointer flex-col rounded-[18px] border border-line bg-white/55 p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald/40 hover:shadow-[0_12px_40px_-18px_rgba(27,67,50,0.25)]"
+      className={cn(
+        "surface-paper surface-lift group relative flex h-full min-w-0 cursor-pointer flex-col p-6 sm:p-7",
+        className,
+      )}
     >
       <div className="flex items-start justify-between gap-4">
-        <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-slate">
-          {system.org} · {system.status}
-          {system.liveUrl && (
-            <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-emerald/10 px-2 py-0.5 text-emerald">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald" aria-hidden="true" />
-              Live
-            </span>
-          )}
-        </p>
-        <ArrowUpRight
-          size={18}
-          className="shrink-0 text-slate transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest"
-        />
+        <div className="min-w-0 font-mono text-[0.66rem] uppercase tracking-[0.14em] text-slate">
+          <p className="flex flex-wrap gap-x-1.5">
+            {system.org.split(" · ").map((part, k, all) => (
+              <span key={part} className="whitespace-nowrap">
+                {part}
+                {k < all.length - 1 && " ·"}
+              </span>
+            ))}
+          </p>
+          <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+            {index !== undefined && (
+              <span className="text-slate">No. {String(index + 1).padStart(2, "0")}</span>
+            )}
+            <StatusMark status={system.status} className="text-ink-soft" />
+            {system.liveUrl && <LiveBadge />}
+          </p>
+        </div>
+        <span
+          aria-hidden="true"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line-strong bg-warm text-slate shadow-raised transition-all duration-200 group-hover:border-emerald/40 group-hover:bg-forest group-hover:text-warm"
+        >
+          <ArrowUpRight
+            size={16}
+            className="transition-transform duration-200 group-hover:-translate-y-px group-hover:translate-x-px"
+          />
+        </span>
       </div>
 
-      <h3 className="font-display mt-3 text-xl font-semibold text-charcoal">
+      <h3 className="font-display mt-4 text-xl font-semibold leading-snug text-charcoal transition-colors duration-200 group-hover:text-forest sm:text-[1.35rem]">
         {system.title}
       </h3>
 
-      <dl className="mt-4 space-y-3 text-sm leading-relaxed">
-        <div>
-          <dt className="font-medium text-forest">Problem</dt>
-          <dd className="mt-0.5 text-slate">{system.problem}</dd>
-        </div>
-        <div>
-          <dt className="font-medium text-forest">Solution</dt>
-          <dd className="mt-0.5 text-slate">{system.solution}</dd>
-        </div>
-        <div>
-          <dt className="font-medium text-forest">Impact</dt>
-          <dd className="mt-0.5 text-slate">{system.impact[0]}</dd>
+      <dl className="mt-5 space-y-4 text-sm leading-relaxed">
+        {ROWS.map((row) => (
+          <div key={row.key} className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3">
+            <span aria-hidden="true" className={cn("mt-[0.45rem] h-1.5 w-1.5 rounded-full", row.mark)} />
+            <div>
+              <dt className="font-mono text-[0.64rem] uppercase tracking-[0.16em] text-slate">
+                {row.label}
+              </dt>
+              <dd className="mt-1 text-ink-soft">{system[row.key]}</dd>
+            </div>
+          </div>
+        ))}
+        <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 rounded-xl border border-dashed border-sage/60 bg-forest-50/60 px-3 py-3">
+          <span aria-hidden="true" className="mt-[0.45rem] h-1.5 w-1.5 rounded-full bg-ochre" />
+          <div>
+            <dt className="font-mono text-[0.64rem] uppercase tracking-[0.16em] text-emerald">Impact</dt>
+            <dd className="mt-1 font-medium text-forest">{system.impact[0]}</dd>
+          </div>
         </div>
       </dl>
 
-      <ul className="mt-auto flex flex-wrap gap-2 pt-5" aria-label="Disciplines">
+      <ul className="mt-auto flex flex-wrap gap-1.5 pt-6" aria-label="Disciplines">
         {system.domains.map((d) => (
-          <li
-            key={d}
-            className="rounded-full bg-forest-50 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-wider text-emerald"
-          >
-            {d}
-          </li>
+          <DomainChip key={d} domain={d} />
         ))}
       </ul>
     </Link>

@@ -2,30 +2,65 @@
 
 /* ===========================================================================
    DESIGN TOKENS — "Building systems that turn complexity into clarity"
+   Field-notebook language: ~80% clean editorial, ~15% map/field-note
+   texture, ~5% tactile surprises. Green stays the identity color.
    =========================================================================== */
 @theme {
+  /* Identity greens */
   --color-forest: #1b4332;
   --color-emerald: #2d6a4f;
   --color-sage: #a3b18a;
-  --color-warm: #f8f5f0;
-  --color-charcoal: #1a1a1a;
-  --color-slate: #64748b;
+  --color-sage-deep: #6f8257;
 
+  /* Paper & ink */
+  --color-warm: #f8f5f0;
+  --color-paper: #fcfaf6;
   --color-warm-200: #efe9df;
+  --color-kraft: #e7ddc9;
+  --color-charcoal: #1a1a1a;
+  --color-ink-soft: #454d48;
+  --color-slate: #64748b;
   --color-forest-50: #eef3f0;
+
+  /* Muted field accents — used as marks, never as text on paper */
+  --color-terracotta: #b5654a;
+  --color-ochre: #b8893a;
+  --color-dusk: #5b7a93;
+  --color-umber: #7a6a58;
+
   --color-line: rgba(26, 26, 26, 0.08);
+  --color-line-strong: rgba(26, 26, 26, 0.15);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
   --font-display: "Clash Display", var(--font-geist-sans), ui-sans-serif, sans-serif;
+  /* Handwriting: annotations only — never body copy or key information. */
+  --font-hand: var(--font-caveat), "Segoe Print", "Bradley Hand", cursive;
 
-  --text-display: clamp(2.75rem, 1.4rem + 5.6vw, 6rem);
+  /* Capped by viewport height too, so the hero fits short laptop screens. */
+  --text-display: clamp(2.5rem, min(1.5rem + 4.6vw, 1rem + 7.4vh), 5.4rem);
   --text-display--line-height: 0.98;
   --text-h2: clamp(1.9rem, 1.1rem + 3vw, 3.25rem);
   --text-h2--line-height: 1.05;
 
   --radius-card: 18px;
+
+  /* Material: soft raised paper, pressed paper, deeper lift on hover. */
+  --shadow-raised:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 1px 2px rgba(27, 67, 50, 0.06),
+    0 6px 18px -10px rgba(27, 67, 50, 0.16);
+  --shadow-lifted:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 2px 4px rgba(27, 67, 50, 0.05),
+    0 18px 40px -20px rgba(27, 67, 50, 0.3);
+  --shadow-pressed:
+    inset 0 2px 5px rgba(27, 67, 50, 0.16),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.7);
 }
+
+/* Laptop-height screens: the hero copy tightens so it never meets the phase legend. */
+@custom-variant short (@media (min-width: 1024px) and (max-height: 820px));
 
 * { border-color: var(--color-line); }
 
@@ -42,11 +77,27 @@ body {
   letter-spacing: -0.011em;
 }
 
+/* Paper grain — one tiny tiled SVG noise, fixed behind everything. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.3 0 0 0 0 0.22 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 ::selection { background: var(--color-forest); color: var(--color-warm); }
 
 .font-display {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
+}
+
+.font-hand {
+  font-family: var(--font-hand);
+  letter-spacing: 0;
 }
 
 .eyebrow {
@@ -59,10 +110,10 @@ body {
 
 .hairline { height: 1px; background: var(--color-line); }
 
-:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--color-emerald);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .link-underline {
@@ -72,7 +123,193 @@ body {
   background-repeat: no-repeat;
   transition: background-size 0.3s ease;
 }
-.link-underline:hover { background-size: 100% 1px; }
+.link-underline:hover,
+.group:hover .link-underline { background-size: 100% 1px; }
+
+/* ===========================================================================
+   COMPONENT PRIMITIVES — layered so Tailwind utilities can still override.
+   =========================================================================== */
+@layer components {
+  /* Paper card: the default editorial surface. */
+  .surface-paper {
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-raised);
+  }
+
+  /* Interactive paper: lifts slightly on hover, presses on click. */
+  .surface-lift {
+    transition:
+      transform 0.25s cubic-bezier(0.21, 0.6, 0.35, 1),
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .surface-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lifted);
+    border-color: color-mix(in srgb, var(--color-emerald) 28%, transparent);
+  }
+  .surface-lift:active { transform: translateY(0); box-shadow: var(--shadow-raised); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background-color: var(--color-forest);
+    color: var(--color-warm);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 1px 2px rgba(27, 67, 50, 0.25),
+      0 8px 20px -10px rgba(27, 67, 50, 0.55);
+  }
+  .btn-primary:hover { background-color: var(--color-emerald); }
+  .btn-primary:active { box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.25); }
+
+  /* Soft tactile button — the neumorphic 5%. */
+  .btn-soft {
+    background-color: var(--color-paper);
+    color: var(--color-forest);
+    border: 1px solid var(--color-line-strong);
+    box-shadow: var(--shadow-raised);
+  }
+  .btn-soft:hover {
+    border-color: color-mix(in srgb, var(--color-emerald) 45%, transparent);
+    box-shadow: var(--shadow-lifted);
+  }
+  .btn-soft:active { box-shadow: var(--shadow-pressed); }
+
+  .btn-sm { min-height: 2.25rem; padding: 0.4rem 1rem; }
+
+  /* Field chip (domains, skills). */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    background-color: var(--color-forest-50);
+    padding: 0.25rem 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-emerald);
+  }
+
+  /* Masking-tape label, as seen on field notebooks. */
+  .tape {
+    position: relative;
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    background-color: color-mix(in srgb, var(--color-kraft) 88%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-forest);
+    clip-path: polygon(1% 8%, 99% 0, 100% 90%, 0 100%);
+  }
+
+  /* Tape strips pinning a photo/card corner. */
+  .tape-corner {
+    position: absolute;
+    width: 5.5rem;
+    height: 1.4rem;
+    background-color: color-mix(in srgb, var(--color-kraft) 80%, transparent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    clip-path: polygon(2% 10%, 98% 0, 100% 88%, 0 100%);
+    pointer-events: none;
+  }
+
+  /* Graph-paper patch. */
+  .field-grid {
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  /* Pressed (inset) field — form inputs. */
+  .field-input {
+    width: 100%;
+    border-radius: 0.9rem;
+    border: 1px solid var(--color-line);
+    background-color: color-mix(in srgb, var(--color-warm-200) 45%, var(--color-paper));
+    box-shadow: var(--shadow-pressed);
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .field-input:focus {
+    border-color: var(--color-emerald);
+    background-color: var(--color-paper);
+  }
+
+  /* Highlighter stroke behind a phrase (impact lines). */
+  .highlight {
+    background-image: linear-gradient(
+      100deg,
+      transparent 0.2em,
+      color-mix(in srgb, var(--color-sage) 38%, transparent) 0.3em,
+      color-mix(in srgb, var(--color-sage) 30%, transparent) 96%,
+      transparent
+    );
+    background-size: 100% 0.62em;
+    background-position: 0 88%;
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+}
+
+/* Reading-progress rule (CSS scroll timeline; ignored where unsupported). */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 2px;
+  background: var(--color-emerald);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .read-progress {
+    animation: read-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes read-progress {
+  to { transform: scaleX(1); }
+}
+
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.animate-soft-pulse { animation: soft-pulse 2.4s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -81,4 +318,6 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+  .surface-lift:hover { transform: none; }
+  .read-progress { display: none; }
 }

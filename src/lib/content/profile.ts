@@ -9,7 +9,7 @@ export const profile = {
   summary:
     "I build production-grade analytics pipelines, executive dashboards, and software systems that help enterprise organizations understand complexity and make better decisions.",
 
-  siteUrl: "https://portfoliocorado.vercel.app",
+  siteUrl: "https://corado-portfolio.vercel.app",
   email: "gervicorado@yahoo.com",
   phone: "0905 336 7220",
   location: "Quezon City, Philippines",
@@ -53,6 +53,19 @@ export const profile = {
 
   resume: {
     experience: [
+      {
+        org: "KodeAcross",
+        role: "Junior Software Engineering Intern",
+        period: "Aug 2026 – Present",
+        bullets: [
+          "Develop and maintain web applications using React, JavaScript/TypeScript, and modern frontend tooling, implementing features based on product and stakeholder requirements.",
+          "Work across UI components, application state, routing, shared context, and data-driven workflows within an established production-style codebase.",
+          "Debug and investigate application behavior by tracing component dependencies, data flow, and existing business logic before implementing changes.",
+          "Implement user-facing features and workflow improvements while maintaining compatibility with existing functionality and minimizing regressions.",
+          "Conduct functional and regression testing in the running application and use Git-based development workflows to commit and ship verified changes.",
+          "Collaborate with engineers and stakeholders to translate requirements into practical software solutions and iterate based on feedback.",
+        ],
+      },
       {
         org: "Dashlabs.ai (YC W21)",
         role: "Data Operations Lead",

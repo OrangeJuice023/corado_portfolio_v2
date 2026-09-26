@@ -36,14 +36,14 @@ const STACK: { name: string; Icon: IconType }[] = [
 
 export function TechStack() {
   return (
-    <ul className="grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-5">
+    <ul className="grid grid-cols-4 gap-2.5 sm:gap-3 xl:grid-cols-5">
       {STACK.map(({ name, Icon }) => (
         <li
           key={name}
-          className="group flex flex-col items-center gap-2 text-slate transition-colors duration-200 hover:text-forest"
+          className="group flex flex-col items-center gap-2 rounded-2xl border border-line bg-paper px-2 py-4 text-slate shadow-raised transition-all duration-200 hover:-translate-y-0.5 hover:text-forest hover:shadow-lifted"
         >
-          <Icon size={30} aria-hidden="true" />
-          <span className="font-mono text-[0.62rem] uppercase tracking-wider">
+          <Icon size={26} aria-hidden="true" />
+          <span className="text-center font-mono text-[0.66rem] uppercase tracking-wider">
             {name}
           </span>
         </li>
