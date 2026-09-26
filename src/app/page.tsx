@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: { absolute: homeTitle },
   description: homeDescription,
   alternates: { canonical: "/" },
+  verification: { google: "xwtXhqgyC5APqD7rGrkneWJuW4WA-UIXfhObwsXWpdo" },
   openGraph: {
     title: homeTitle,
     description: homeDescription,
